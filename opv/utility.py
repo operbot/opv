@@ -4,7 +4,9 @@
 "utility"
 
 
+import getpass
 import os
+import pwd
 import pathlib
 import time
 import types
@@ -18,6 +20,9 @@ def __dir__():
             'fntime',
             'locked',
             'name',
+            'privileges',
+            'spl',
+            'wait'
            )
 
 
@@ -82,7 +87,6 @@ def fnclass(path):
     return None
 
 
-
 def fntime(daystr):
     daystr = daystr.replace("_", ":")
     datestr = " ".join(daystr.split(os.sep)[-2:])
@@ -134,3 +138,31 @@ def name(obj):
     if "__name__" in dir(obj):
         return "%s.%s" % (obj.__class__.__name__, obj.__name__)
     return None
+
+
+def privileges(username):
+    if os.getuid() != 0:
+        return
+    try:
+        pwnam = pwd.getpwnam(username)
+    except KeyError:
+        username = getpass.getuser()
+        pwnam = pwd.getpwnam(username)
+    os.setgroups([])
+    os.setgid(pwnam.pw_gid)
+    os.setuid(pwnam.pw_uid)
+
+
+def spl(txt):
+    try:
+        res = txt.split(",")
+    except (TypeError, ValueError):
+        res = txt
+    return [x for x in res if x]
+
+
+def wait(func=None):
+    while 1:
+        time.sleep(1.0)
+        if func:
+            func()

@@ -9,7 +9,7 @@ import os
 
 from .decoder import load
 from .encoder import dump
-from .objects import Object, kind, oid, search, update
+from .objects import Object, items, kind, oid, search, update
 from .utility import fnclass, fntime
 
 
@@ -24,15 +24,31 @@ def __dir__():
 __all__ = __dir__()
 
 
+class NoClass(Exception):
+
+    pass
 
 class Storage:
 
-    cls = {}
+    cls = Object()
     workdir = ""
 
     @staticmethod
     def add(clz):
-        Storage.cls["%s.%s" % (clz.__module__, clz.__name__)] =  clz
+        setattr(Storage.cls, "%s.%s" % (clz.__module__, clz.__name__), clz)
+
+    @staticmethod
+    def files(oname=None):
+        res = []
+        path = Storage.path()
+        if not os.path.exists(path):
+            return res
+        for fnm in os.listdir(path):
+            if oname and oname.lower() not in fnm.split(".")[-1].lower():
+                continue
+            if fnm not in res:
+                res.append(fnm)
+        return res
 
     @staticmethod
     def find(otp, selector=None):
@@ -65,9 +81,9 @@ class Storage:
     @staticmethod
     def hook(otp):
         fqn = fnclass(otp)
-        cls = Storage.cls.get(fqn, None)
+        cls = getattr(Storage.cls, fqn, None)
         if not cls:
-            cls = Storage.all("Object")[-1]
+            raise NoClass(fqn)
         obj = cls()
         load(obj, otp)
         return obj
@@ -78,21 +94,13 @@ class Storage:
 
     @staticmethod
     def types(oname=None):
-        res = []
-        path = Storage.path()
-        if not os.path.exists(path):
-            return res
-        for fnm in os.listdir(path):
-            if oname and oname.lower() not in fnm.split(".")[-1].lower():
-                continue
-            if fnm not in res:
-                res.append(fnm)
-        return res
+        for name, typ in items(Storage.cls):
+            if oname and oname in name.split(".")[-1].lower():
+                yield name
 
     @staticmethod
     def strip(path):
         return path.split("store")[-1][1:]
-
 
 
 Storage.add(Object)

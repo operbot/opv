@@ -5,6 +5,7 @@
 
 
 import json
+import sys
 
 
 from .objects import Object
@@ -44,6 +45,8 @@ class ObjectEncoder(json.JSONEncoder):
 
 
 def dump(obj, opath):
+    print(opath)
+    sys.stdout.flush()
     cdir(opath)
     with open(opath, "w", encoding="utf-8") as ofile:
         json.dump(
