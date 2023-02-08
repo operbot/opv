@@ -6,10 +6,10 @@ import os
 import unittest
 
 
-from opi.decoder import ObjectDecoder, load, loads
-from opi.encoder import ObjectEncoder, dump, dumps
-from opi.objects import Object, oid
-from opi.storage import Storage
+from opv.decoder import ObjectDecoder, load, loads
+from opv.encoder import ObjectEncoder, dump, dumps
+from opv.objects import Object, oid
+from opv.storage import Storage
 
 
 VALIDJSON = '{"test": "bla"}'

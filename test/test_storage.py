@@ -6,11 +6,11 @@ import os
 import unittest
 
 
-from opi.objects import Object
-from opi.storage import Storage, save
+from opv.objects import Object
+from opv.storage import Storage, save
 
 
-import opi.storage
+import opv.storage
 
 
 Storage.workdir = ".test"
@@ -75,7 +75,7 @@ class TestStorage(unittest.TestCase):
 
     def test_dirmodule(self):
         self.assertEqual(
-                         dir(opi.storage),
+                         dir(opv.storage),
                          list(ATTRS1)
                         )
 
@@ -87,7 +87,7 @@ class TestStorage(unittest.TestCase):
                         )
 
     def test_module(self):
-        self.assertTrue(Storage().__module__, "opi.storage")
+        self.assertTrue(Storage().__module__, "opv.storage")
 
     def test_save(self):
         Storage.workdir = ".test"

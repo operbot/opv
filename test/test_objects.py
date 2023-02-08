@@ -6,11 +6,11 @@ import os
 import unittest
 
 
-from opi.objects import Object, items, keys, update, values
-from opi.objects import format, kind
+from opv.objects import Object, items, keys, update, values
+from opv.objects import format, kind
 
 
-import opi
+import opv
 
 
 VALIDJSON = '{"test": "bla"}'
@@ -136,10 +136,10 @@ class TestObject(unittest.TestCase):
         self.assertEqual(len(obj), 0)
 
     def test_module(self):
-        self.assertTrue(Object().__module__, "opi")
+        self.assertTrue(Object().__module__, "opv")
 
     def test_kind(self):
-        self.assertEqual(kind(Object()), "opi.objects.Object")
+        self.assertEqual(kind(Object()), "opv.objects.Object")
 
     def test_repr(self):
         self.assertTrue(update(Object(),
