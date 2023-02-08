@@ -37,7 +37,7 @@ class Storage:
     @staticmethod
     def files(oname=None):
         res = []
-        path = Storage.path()
+        path = Storage.path("")
         if not os.path.exists(path):
             return res
         for fnm in os.listdir(path):
@@ -91,7 +91,7 @@ class Storage:
 
     @staticmethod
     def types(oname=None):
-        for name, typ in items(Storage.cls):
+        for name, _typ in items(Storage.cls):
             if oname and oname in name.split(".")[-1].lower():
                 yield name
 

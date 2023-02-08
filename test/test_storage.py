@@ -52,6 +52,7 @@ ATTRS2 = (
           '__weakref__',
           'add',
           'cls',
+          'files',
           'find',
           'fns',
           'hook',
