@@ -127,7 +127,7 @@ def main():
         Cfg.wait = True
     elif "c" in Cfg.opts:
         date = time.ctime(time.time()).replace("  ", " ")
-        print(f"OPI started {date}")
+        print(f"OPV started {date}")
         irc.init()
         rss.init()
         csl = Console()

@@ -4,13 +4,13 @@ README
 **NAME**
 
 |
-| ``opi`` - object programming interface
+| ``opv`` - object programming version
 |
 
 **SYNOPSIS**
 
 
-The ``opi`` package provides an Object class, that allows for save/load to/from
+The ``opv`` package provides an Object class, that allows for save/load to/from
 json files on disk. Objects can be searched with database functions and have a 
 type in filename for reconstruction. Methods are factored out into functions to
 have a clean namespace to read JSON data into.
@@ -23,15 +23,15 @@ keep objects in sync on a multiprocessor environment.
 **INSTALL**
 
 |
-| ``python3 -m pip install opi``
+| ``python3 -m pip install opv``
 |
 
 **PROGRAMMING**
 
 basic usage is this::
 
- >>> import opi
- >>> o = opi.Object()
+ >>> import opv
+ >>> o = opv.Object()
  >>> o.key = "value"
  >>> o.key
  >>> 'value'
@@ -43,7 +43,7 @@ and values.
 
 load/save from/to disk::
 
- >>> from opi import Object, load, save
+ >>> from opv import Object, load, save
  >>> o = Object()
  >>> o.key = "value"
  >>> p = save(o)
@@ -54,10 +54,10 @@ load/save from/to disk::
 
 great for giving objects peristence by having their state stored in files::
 
- >>> from opi import Object, save
+ >>> from opv import Object, save
  >>> o = Object()
  >>> save(o)
- 'opi.objects.Object/2021-08-31/15:31:05.717063'
+ 'opv.objects.Object/2021-08-31/15:31:05.717063'
 
 |
 
@@ -70,5 +70,5 @@ great for giving objects peristence by having their state stored in files::
 **COPYRIGHT**
 
 |
-| ``opi`` is placed in the Public Domain.
+| ``opv`` is placed in the Public Domain.
 |

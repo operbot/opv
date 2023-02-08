@@ -1,7 +1,7 @@
 # This file is placed in the Public Domain.
 
 
-"Big Object"
+"object programming version"
 
 
 from setuptools import setup
@@ -13,17 +13,16 @@ def read():
 
 setup(
     name="opv",
-    version="1",
-    author="Bart Thate",
+    version="2",
+    author="B.H.J. Thate",
     author_email="operbot100@gmail.com",
     url="http://github.com/operbot/opv",
     zip_safe=True,
-    description="object programming interface",
+    description="object programming version",
     long_description=read(),
     long_description_content_type="text/x-rst",
     license="Public Domain",
     packages=["opv"],
-    scripts=["bin/opv"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: Public Domain",
