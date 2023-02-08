@@ -1,9 +1,6 @@
 # This file is placed in the Public Domain.
 
 
-"database"
-
-
 import os
 
 
@@ -31,7 +28,7 @@ class NoClass(Exception):
 class Storage:
 
     cls = Object()
-    workdir = ""
+    workdir = ".opr"
 
     @staticmethod
     def add(clz):
@@ -89,7 +86,7 @@ class Storage:
         return obj
 
     @staticmethod
-    def path(path=""):
+    def path(path):
         return os.path.join(Storage.workdir, "store", path)
 
     @staticmethod

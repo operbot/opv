@@ -1,9 +1,6 @@
 # This file is placed in the Public Domain.
 
 
-"Big Object"
-
-
 import datetime
 import os
 import uuid
@@ -56,13 +53,13 @@ class Object:
         return str(self. __dict__)
 
 
-def format(self, args="", skip="", plain=False):
+def format(obj, args="", skip="", plain=False):
     res = []
     keyz = []
     if "," in args:
         keyz = args.split(",")
     if not keyz:
-        keyz = keys(self)
+        keyz = keys(obj)
     for key in keyz:
         if key.startswith("_"):
             continue
@@ -70,7 +67,7 @@ def format(self, args="", skip="", plain=False):
             skips = skip.split(",")
             if key in skips:
                 continue
-        value = getattr(self, key, None)
+        value = getattr(obj, key, None)
         if not value:
             continue
         if " object at " in str(value):
@@ -87,37 +84,37 @@ def format(self, args="", skip="", plain=False):
     return txt.strip()
 
 
-def items(self):
-    if isinstance(self, type({})):
-        return self.items()
-    return self.__dict__.items()
+def items(obj):
+    if isinstance(obj, type({})):
+        return obj.items()
+    return obj.__dict__.items()
 
 
-def keys(self):
-    return self.__dict__.keys()
+def keys(obj):
+    return obj.__dict__.keys()
 
 
-def kind(self):
-    kin = str(type(self)).split()[-1][1:-2]
+def kind(obj):
+    kin = str(type(obj)).split()[-1][1:-2]
     if kin == "type":
-        kin = self.__name__
+        kin = obj.__name__
     return kin
 
 
-def oid(self):
+def oid(obj):
     return os.path.join(
-                        kind(self),
+                        kind(obj),
                         str(uuid.uuid4().hex),
                         os.sep.join(str(datetime.datetime.now()).split()),
                        )
 
 
-def search(self, selector):
+def search(obj, selector):
     res = False
     select = Object(selector)
     for key, value in items(select):
         try:
-            val = getattr(self, key)
+            val = getattr(obj, key)
         except AttributeError:
             continue
         if str(value) in str(val):
@@ -126,10 +123,10 @@ def search(self, selector):
     return res
 
 
-def update(self, data):
+def update(obj, data):
     for key, value in items(data):
-        setattr(self, key, value)
+        setattr(obj, key, value)
 
 
-def values(self):
-    return self.__dict__.values()
+def values(obj):
+    return obj.__dict__.values()
