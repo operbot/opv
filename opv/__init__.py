@@ -1,7 +1,7 @@
 # This file is placed in the Public Domain.
 
 
-"object programming interface"
+"object programming version"
 
 
 from . import decoder, default, encoder, objects, storage, utility
