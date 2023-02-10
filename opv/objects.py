@@ -15,11 +15,13 @@ def __dir__():
     return (
             'Object',
             'format',
+            'get',
             'items',
             'keys',
             'kind',
             'oid',
             'name',
+            'register',
             'search',
             'update',
             'values'
@@ -89,6 +91,10 @@ def format(obj, args="", skip="", plain=False):
     return txt.strip()
 
 
+def get(obj, key, default=None):
+    return getattr(obj, key, default)
+
+
 def items(obj):
     if isinstance(obj, type({})):
         return obj.items()
@@ -127,6 +133,10 @@ def oid(obj):
                         str(uuid.uuid4().hex),
                         os.sep.join(str(datetime.datetime.now()).split()),
                        )
+
+
+def register(obj, key, value):
+    setattr(obj, key, value)
 
 
 def search(obj, selector):
