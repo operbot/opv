@@ -1,13 +1,11 @@
 # This file is placed in the Public Domain.
 
 
-import json
-import os
 import unittest
 
 
-from opv.encoder import ObjectEncoder, dumps
-from opv.objects import Object, oid
+from opv.encoder import dumps
+from opv.objects import Object
 
 
 VALIDJSON = '{"test": "bla"}'

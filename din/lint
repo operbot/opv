@@ -6,6 +6,7 @@
 
 
 import os
+import sys
 
 
 SKIP = ["---", "Your code"]
@@ -28,6 +29,8 @@ def loop(path, txt):
         if not os.path.exists("%s/__init__.py" % fnn):
             continue
         os.chdir(fnn)
+        print("linting %s" % fnn)
+        sys.stdout.flush()
         for line in os.popen(txt).readlines():
             if doskip(line):
                 continue
@@ -35,6 +38,12 @@ def loop(path, txt):
         os.chdir("..")
 
 
+def popen(txt):
+    for line in os.popen(txt).readlines():
+        print(line.strip())
+        sys.stdout.flush()
+
+
 if __name__ == "__main__":
-    os.popen("din/clean").readlines()
-    loop(os.getcwd(), "pylint -d %s *" % IGNORE)
+    popen("din/clean")
+    loop(os.getcwd(), "pylint -v -d %s *" % IGNORE)

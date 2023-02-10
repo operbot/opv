@@ -1,16 +1,11 @@
 # This file is placed in the Public Domain.
 
 
-import json
-import os
 import unittest
 
 
 from opv.objects import Object, items, keys, update, values
 from opv.objects import format, kind
-
-
-import opv
 
 
 VALIDJSON = '{"test": "bla"}'
@@ -104,7 +99,7 @@ class TestObject(unittest.TestCase):
 
     def test_format(self):
         obj = Object()
-        self.assertTrue("<opv.objects.Object object at" in obj.__format__(""))
+        self.assertEqual(obj.__format__(""), "{}")
 
     def test_getattribute(self):
         obj = Object()
@@ -154,7 +149,7 @@ class TestObject(unittest.TestCase):
 
     def test_str(self):
         obj = Object()
-        self.assertTrue("<opv.objects.Object object at" in str(obj))
+        self.assertEqual(str(obj), "{}")
 
     def test_printable(self):
         obj = Object()
