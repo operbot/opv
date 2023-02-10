@@ -15,10 +15,12 @@ from .objects import *
 def __dir__():
     return (
             'Object',
+            'dumps',
             'format',
             'items',
             'keys',
             'kind',
+            'loads',
             'name',
             'oid',
             'search',

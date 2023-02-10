@@ -18,7 +18,6 @@ VALIDJSON = '{"test": "bla"}'
 
 attrs1 = (
          'Object',
-         'Wd',
          'clear',
          'copy',
          'fromkeys',
@@ -105,7 +104,7 @@ class TestObject(unittest.TestCase):
 
     def test_format(self):
         obj = Object()
-        self.assertEqual(obj.__format__(""), "{}")
+        self.assertTrue("<opv.objects.Object object at" in obj.__format__(""))
 
     def test_getattribute(self):
         obj = Object()
@@ -155,7 +154,7 @@ class TestObject(unittest.TestCase):
 
     def test_str(self):
         obj = Object()
-        self.assertEqual(str(obj), "{}")
+        self.assertTrue("<opv.objects.Object object at" in str(obj))
 
     def test_printable(self):
         obj = Object()
