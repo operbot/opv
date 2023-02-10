@@ -1,7 +1,7 @@
 # This file is placed in the Public Domain.
 
 
-from .objects import Object
+from . import Object
 
 
 def __dir__():

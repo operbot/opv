@@ -1,35 +1,30 @@
-# This file is placed in the Public Domain.
+# This is file is placed in the Public Domain.
 
 
 "object programming version"
 
 
-from . import decoder, default, encoder, objects, storage, utility
+from . import decoder, encoder, objects, utility
 
 
-from .decoder import load
-from .encoder import dump
-from .objects import Object, format, items, keys, kind, oid, search, update
-from .objects import values
-from .storage import Storage, last, save
+from .decoder import loads
+from .encoder import dumps
+from .objects import *
 
 
 def __dir__():
     return (
             'Object',
-            'dump',
             'format',
             'items',
             'keys',
             'kind',
-            'last',
-            'load',
+            'name',
             'oid',
-            'save',
             'search',
             'update',
             'values'
-            )
+           )
 
 
 __all__ = __dir__()
