@@ -54,6 +54,8 @@ class Object:
     def __len__(self):
         return len(self.__dict__)
 
+    def __str__(self):
+        return str(self.__dict__)
 
 
 def format(obj, args="", skip="", plain=False):
