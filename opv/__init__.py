@@ -1,10 +1,10 @@
 # This is file is placed in the Public Domain.
 
 
-"object programming version"
+"the object programming version"
 
 
-from . import handler, objects, runtime, storage, utility
+from . import objects
 
 
 from .objects import *
@@ -13,14 +13,10 @@ from .objects import *
 def __dir__():
     return (
             'Object',
-            'dump',
-            'dumps',
             'format',
             'items',
             'keys',
             'kind',
-            'load',
-            'loads',
             'name',
             'oid',
             'search',
