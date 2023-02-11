@@ -6,8 +6,7 @@ import queue
 import threading
 
 
-from opv.default import Default
-from opv.objects import Object, register, update
+from opv.objects import Default, Object, name, register
 
 
 def __dir__():
@@ -28,6 +27,7 @@ class Handler(Object):
 
     cmds = Object()
     errors = []
+    threaded = True
 
     def __init__(self):
         Object.__init__(self)
@@ -52,14 +52,17 @@ class Handler(Object):
                 event.ready()
                 return None
             event.show()
-        #event.ready()
+        event.ready()
 
     def handle(self, event):
         func = getattr(self.cbs, event.type, None)
         if not func:
             event.ready()
             return
-        func(event)
+        if Handler.threaded:
+            event.__thr__ = launch(func, event)
+        else:
+            func(event)
 
     def loop(self):
         while not self.stopped.set():
@@ -215,7 +218,7 @@ class Thread(threading.Thread):
 
 
 def launch(func, *args, **kwargs):
-    thrname = kwargs.get("name", func.__name__)
+    thrname = kwargs.get("name", name(func))
     thr = Thread(func, thrname, *args)
     thr.start()
     return thr

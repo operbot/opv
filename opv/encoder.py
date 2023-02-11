@@ -4,8 +4,8 @@
 import json
 
 
-from .objects import Object
-from .utility import cdir
+from .objects import Object, lock
+from .utility import cdir, locked
 
 
 def __dir__():
@@ -40,6 +40,7 @@ class ObjectEncoder(json.JSONEncoder):
             return str(o)
 
 
+@locked(lock)
 def dump(obj, opath):
     cdir(opath)
     with open(opath, "w", encoding="utf-8") as ofile:

@@ -13,6 +13,7 @@ import _thread
 
 def __dir__():
     return (
+            'Default',
             'Object',
             'format',
             'get',
@@ -31,7 +32,7 @@ def __dir__():
 __all__ = __dir__()
 
 
-disklock = _thread.allocate_lock()
+lock = _thread.allocate_lock()
 
 
 class Object:
@@ -58,6 +59,18 @@ class Object:
 
     def __str__(self):
         return str(self.__dict__)
+
+
+class Default(Object):
+
+    __slots__ = ("__default__",)
+
+    def __init__(self):
+        Object.__init__(self)
+        self.__default__ = ""
+
+    def __getattr__(self, key):
+        return self.__dict__.get(key, self.__default__)
 
 
 def format(obj, args="", skip="", plain=False):

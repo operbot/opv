@@ -4,7 +4,8 @@
 import json
 
 
-from .objects import Object, update
+from .objects import Object, lock, update
+from .utility import locked
 
 
 def __dir__():
@@ -25,6 +26,7 @@ class ObjectDecoder(json.JSONDecoder):
         return Object(value)
 
 
+@locked(lock)
 def load(obj, opath):
     with open(opath, "r", encoding="utf-8") as ofile:
         res = json.load(ofile, cls=ObjectDecoder)

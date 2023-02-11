@@ -13,7 +13,7 @@ def read():
 
 setup(
     name="opv",
-    version="2",
+    version="3",
     author="B.H.J. Thate",
     author_email="operbot100@gmail.com",
     url="http://github.com/operbot/opv",
@@ -22,7 +22,7 @@ setup(
     long_description=read(),
     long_description_content_type="text/x-rst",
     license="Public Domain",
-    packages=["opv"],
+    packages=["opv", "opv.modules"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: Public Domain",

@@ -25,7 +25,7 @@ def main():
     popen("rm -fR build dist MANIFEST *.egg-info")
     popen("rm -fR  __pycache__ *~")
     popen("rm -fR .test .opr .opq")
-    popen("din/loop . rm -fR \*~")
+    popen("din/loop . rm -fR *~")
     popen("din/loop . rm -fR __pycache__")
 
 

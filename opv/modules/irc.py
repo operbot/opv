@@ -13,11 +13,10 @@ import threading
 import _thread
 
 
-from opv.default import Default
-from opv.objects import Object, format, keys, update
-from opv.utility import elapsed, fntime, locked
-from opv.handler import Event, Handler, launch
-from opv.storage import Storage, last, save
+from ..objects import Default, Object, format, keys, update
+from ..utility import elapsed, fntime, locked
+from ..handler import Event, Handler, launch
+from ..storage import Storage, last, save
 
 
 def __dir__():
@@ -595,8 +594,10 @@ def cfg(event):
                               )
     else:
         update(config, event.sets)
+        print(config)
         save(config)
-        event.done()
+        print("yo!")
+        event.reply("ok")
 
 
 def dlt(event):
@@ -607,7 +608,7 @@ def dlt(event):
     for obj in Storage.find("user", selector):
         obj.__deleted__ = True
         save(obj)
-        event.done()
+        event.reply("ok")
         break
 
 
@@ -629,7 +630,7 @@ def met(event):
     user.user = event.rest
     user.perms = ["USER"]
     save(user)
-    event.done()
+    event.reply("ok")
 
 
 def mre(event):

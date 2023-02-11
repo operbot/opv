@@ -138,9 +138,9 @@ class Fetcher(Object):
         if objs:
             save(Fetcher.seen)
         txt = ""
-        name = getattr(feed, "name")
-        if name:
-            txt = "[%s] " % name
+        feedname = getattr(feed, "name")
+        if feedname:
+            txt = "[%s] " % feedname
         for obj in objs:
             txt2 = txt + self.display(obj)
             Listens.announce(txt2.rstrip())
