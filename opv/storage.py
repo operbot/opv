@@ -4,9 +4,7 @@
 import os
 
 
-from .decoder import load
-from .encoder import dump
-from .objects import Object, items, kind, oid, search, update
+from .objects import Object, dump, items, kind, load, oid, search, update
 from .utility import fnclass, fntime
 
 
@@ -119,6 +117,5 @@ def last(obj, selector=None):
 
 def save(obj):
     opath = Storage.path(oid(obj))
-    print(opath)
     dump(obj, opath)
     return Storage.strip(opath)

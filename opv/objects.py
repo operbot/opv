@@ -6,9 +6,13 @@
 
 import datetime
 import os
+import json
 import types
 import uuid
 import _thread
+
+
+from .utility import locked
 
 
 def __dir__():
@@ -61,6 +65,36 @@ class Object:
         return str(self.__dict__)
 
 
+class ObjectDecoder(json.JSONDecoder):
+
+
+    def decode(self, s, _w=None):
+        value = json.loads(s)
+        return Object(value)
+
+
+class ObjectEncoder(json.JSONEncoder):
+
+
+    def default(self, o):
+        if isinstance(o, dict):
+            return o.items()
+        if isinstance(o, Object):
+            return vars(o)
+        if isinstance(o, list):
+            return iter(o)
+        if isinstance(o,
+                      (type(str), type(True), type(False),
+                       type(int), type(float))
+                     ):
+            return str(o)
+        try:
+            return json.JSONEncoder.default(self, o)
+        except TypeError:
+            return str(o)
+
+
+
 class Default(Object):
 
     __slots__ = ("__default__",)
@@ -71,6 +105,20 @@ class Default(Object):
 
     def __getattr__(self, key):
         return self.__dict__.get(key, self.__default__)
+
+
+@locked
+def dump(obj, opath):
+    cdir(opath)
+    with open(opath, "w", encoding="utf-8") as ofile:
+        json.dump(
+            obj.__dict__, ofile, cls=ObjectEncoder, indent=4, sort_keys=True
+        )
+    return opath
+
+
+def dumps(obj):
+    return json.dumps(obj, cls=ObjectEncoder)
 
 
 def format(obj, args="", skip="", plain=False):
@@ -123,6 +171,16 @@ def kind(obj):
     if kin == "type":
         kin = obj.__name__
     return kin
+
+@locked
+def load(obj, opath):
+    with open(opath, "r", encoding="utf-8") as ofile:
+        res = json.load(ofile, cls=ObjectDecoder)
+        update(obj, res)
+
+
+def loads(jsonstr):
+    return json.loads(jsonstr, cls=ObjectDecoder)
 
 
 def name(obj):

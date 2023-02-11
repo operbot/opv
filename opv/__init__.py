@@ -4,22 +4,22 @@
 "object programming version"
 
 
-from . import decoder, encoder, objects, utility
+from . import handler, objects, runtime, storage, utility
 
 
-from .decoder import loads
-from .encoder import dumps
 from .objects import *
 
 
 def __dir__():
     return (
             'Object',
+            'dump',
             'dumps',
             'format',
             'items',
             'keys',
             'kind',
+            'load',
             'loads',
             'name',
             'oid',
