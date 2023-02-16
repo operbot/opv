@@ -8,6 +8,9 @@ import uuid
 import _thread
 
 
+from functools import wraps
+
+
 def __dir__():
     return (
             'Object',
@@ -16,10 +19,8 @@ def __dir__():
             'items',
             'keys',
             'kind',
-            'locked',
             'name',
             'oid',
-            'olock',
             'register',
             'search',
             'update',
@@ -37,9 +38,7 @@ def locked(lock):
 
     def lockeddec(func, *args, **kwargs):
 
-        if args or kwargs:
-            locked.noargs = True
-
+        @wraps(func)
         def lockedfunc(*args, **kwargs):
             lock.acquire()
             res = None
@@ -49,8 +48,6 @@ def locked(lock):
                 lock.release()
             return res
 
-        lockeddec.__wrapped__ = func
-        lockeddec.__doc__ = func.__doc__
         return lockedfunc
 
     return lockeddec
@@ -167,7 +164,7 @@ def oid(obj):
                        )
 
 
-def register(obj, key, value):
+def register(obj, key, value) -> None:
     setattr(obj, key, value)
 
 

@@ -4,9 +4,11 @@
 "object programming version"
 
 
-from . import objects
+from . import decoder, default, encoder, objects
 
 
+from .decoder import load, loads
+from .encoder import dump, dumps
 from .objects import *
 
 
@@ -17,10 +19,8 @@ def __dir__():
             'items',
             'keys',
             'kind',
-            'locked',
             'name',
             'oid',
-            'olock',
             'search',
             'update',
             'values'
