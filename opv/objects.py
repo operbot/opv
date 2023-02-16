@@ -1,13 +1,11 @@
 # This file is placed in the Public Domain.
 
 
-"Big Object"
-
-
 import datetime
 import os
 import types
 import uuid
+import _thread
 
 
 def __dir__():
@@ -18,8 +16,10 @@ def __dir__():
             'items',
             'keys',
             'kind',
+            'locked',
             'name',
             'oid',
+            'olock',
             'register',
             'search',
             'update',
@@ -28,6 +28,33 @@ def __dir__():
 
 
 __all__ = __dir__()
+
+
+olock = _thread.allocate_lock()
+
+
+def locked(lock):
+
+    def lockeddec(func, *args, **kwargs):
+
+        if args or kwargs:
+            locked.noargs = True
+
+        def lockedfunc(*args, **kwargs):
+            lock.acquire()
+            res = None
+            try:
+                res = func(*args, **kwargs)
+            finally:
+                lock.release()
+            return res
+
+        lockeddec.__wrapped__ = func
+        lockeddec.__doc__ = func.__doc__
+        return lockedfunc
+
+    return lockeddec
+
 
 
 class Object:
@@ -46,11 +73,19 @@ class Object:
         if kwargs:
             self.__dict__.update(kwargs)
 
+    @locked(olock)
+    def __getattribute__(self, key):
+        return object.__getattribute__(self, key)
+        
     def __iter__(self):
         return iter(self.__dict__)
 
     def __len__(self):
         return len(self.__dict__)
+
+    @locked(olock)
+    def __setattr__(self, key, value):
+        return object.__setattr__(self, key, value)
 
     def __str__(self):
         return str(self.__dict__)

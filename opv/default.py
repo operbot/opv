@@ -1,9 +1,6 @@
 # This file is placed in the Public Domain.
 
 
-"default if not exists"
-
-
 from .objects import Object
 
 

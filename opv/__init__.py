@@ -1,7 +1,7 @@
 # This is file is placed in the Public Domain.
 
 
-"the object programming version"
+"object programming version"
 
 
 from . import objects
@@ -17,8 +17,10 @@ def __dir__():
             'items',
             'keys',
             'kind',
+            'locked',
             'name',
             'oid',
+            'olock',
             'search',
             'update',
             'values'
