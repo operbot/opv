@@ -13,7 +13,7 @@ def read():
 
 setup(
     name="opv",
-    version="3",
+    version="10",
     author="B.H.J. Thate",
     author_email="operbot100@gmail.com",
     url="http://github.com/operbot/opv",
