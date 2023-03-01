@@ -40,7 +40,7 @@ def log():
     args = sys.argv[1:]
     if not args:
         nmr = 0
-        for fnm, obj in Storage.find("log"):
+        for fnm, obj in sorted(Storage.find("log"), key=lambda x: fntime(x[0])):
             print("%s %s %s" % (
                                       nmr,
                                       obj.txt,
