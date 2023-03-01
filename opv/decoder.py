@@ -4,7 +4,8 @@
 import json
 
 
-from .objects import Object, locked, olock
+from .objects import Object, olock
+from .utility import locked
 
 
 def __dir__():

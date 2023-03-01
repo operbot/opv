@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+# This file is placed in the Public Domain.
+
+
+import os
+import sys
+import time
+
+
+sys.path.insert(0, ".")
+
+
+from opv.objects import Object
+from opv.storage import Storage
+from opv.utility import elapsed, fntime
+
+
+def __dir__():
+    return (
+            'Log',
+            'log',
+           )
+
+
+
+Storage.workdir = os.path.expanduser("~/.opv")
+
+
+class Log(Object):
+
+    def __init__(self):
+        super().__init__()
+        self.txt = ""
+
+
+Storage.add(Log)
+
+
+def log():
+    args = sys.argv[1:]
+    if not args:
+        nmr = 0
+        for fnm, obj in Storage.find("log"):
+            print("%s %s %s" % (
+                                      nmr,
+                                      obj.txt,
+                                      elapsed(time.time() - fntime(fnm)))
+                                     )
+            nmr += 1
+        return
+    obj = Log()
+    obj.txt = " ".join(args)
+    Storage.save(obj)
+    print("ok")
+
+
+log()
