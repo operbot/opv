@@ -12,13 +12,10 @@ def __dir__():
     return (
             'Object',
             'format',
-            'get',
             'items',
             'keys',
             'kind',
-            'name',
             'oid',
-            'register',
             'search',
             'update',
             'values'
@@ -57,7 +54,6 @@ class Object:
         return str(self.__dict__)
 
 
-
 def format(obj, args="", skip="", plain=False):
     res = []
     keyz = []
@@ -80,17 +76,14 @@ def format(obj, args="", skip="", plain=False):
         txt = ""
         if plain:
             value = str(value)
-        if isinstance(value, str) and len(value.split()) >= 2:
+            txt = f'{value}'
+        elif isinstance(value, str) and len(value.split()) >= 2:
             txt = f'{key}="{value}"'
         else:
             txt = f'{key}={value}'
         res.append(txt)
     txt = " ".join(res)
     return txt.strip()
-
-
-def get(obj, key, default=None):
-    return getattr(obj, key, default)
 
 
 def items(obj):
@@ -110,31 +103,12 @@ def kind(obj):
     return kin
 
 
-def name(obj):
-    typ = type(obj)
-    if isinstance(typ, types.ModuleType):
-        return obj.__name__
-    if "__self__" in dir(obj):
-        return "%s.%s" % (obj.__self__.__class__.__name__, obj.__name__)
-    if "__class__" in dir(obj) and "__name__" in dir(obj):
-        return "%s.%s" % (obj.__class__.__name__, obj.__name__)
-    if "__class__" in dir(obj):
-        return obj.__class__.__name__
-    if "__name__" in dir(obj):
-        return "%s.%s" % (obj.__class__.__name__, obj.__name__)
-    return None
-
-
 def oid(obj):
     return os.path.join(
                         kind(obj),
                         str(uuid.uuid4().hex),
                         os.sep.join(str(datetime.datetime.now()).split()),
                        )
-
-
-def register(obj, key, value) -> None:
-    setattr(obj, key, value)
 
 
 def search(obj, selector):
