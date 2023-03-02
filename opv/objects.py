@@ -96,10 +96,12 @@ def keys(obj):
     return obj.__dict__.keys()
 
 
-def kind(obj):
+def kind(obj, single=False):
     kin = str(type(obj)).split()[-1][1:-2]
     if kin == "type":
         kin = obj.__name__
+    if single:
+        kin = kin.split(".")[-1]
     return kin
 
 
