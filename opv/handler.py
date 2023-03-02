@@ -33,12 +33,15 @@ class Handler(Object):
     def event(self, txt):
         splitted = txt.split()
         event = Object()
-        event.cmd = ""
         event.args = []
+        event.cmd = ""
+        event.rest = ""
         if splitted:
             event.cmd = splitted.pop(0)
         if splitted:
             event.args = splitted
+            event.rest = " ".join(splitted)
+        event.target = self
         return event
 
     def handle(self, event):
