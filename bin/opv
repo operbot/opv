@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+# This file is placed in the Public Domain.
+
+
+"object programming version"
+
+
+import importlib
+import os
+import sys
+import termios
+import time
+
+
+sys.path.insert(0, ".")
+
+
+from opv.handler import Handler
+from opv.objects import Object
+from opv.storage import Storage
+
+
+Storage.workdir = os.path.expanduser("~/.opv")
+
+
+class CLI(Handler):
+
+    def announce(self, txt):
+        pass
+
+    def one(self, txt):
+        self.handle(self.event(txt))
+
+    def raw(self, txt):
+        print(txt)
+        sys.stdout.flush()
+
+
+class Console(CLI):
+
+
+    def poll(self):
+        return self.event(input("> "))
+
+    def wait(self):
+        while 1:
+            time.sleep(1.0)
+
+
+def scandir(handler, path, pname=None):
+    if pname is None:
+        pname = path.split(os.sep)[-1]
+    for fnm in os.listdir(path):
+        try:
+            mod = importlib.import_module("." + fnm[:-3], pname)
+        except ModuleNotFoundError:
+            continue
+        handler.scan(mod)
+
+
+def wrap(func):
+    fds = sys.stdin.fileno()
+    gotterm = True
+    try:
+        old = termios.tcgetattr(fds)
+    except termios.error:
+        gotterm = False
+    try:
+        func()
+    except (EOFError, KeyboardInterrupt):
+        print("")
+    finally:
+        if gotterm:
+            termios.tcsetattr(fds, termios.TCSADRAIN, old)
+
+
+def main():
+    txt = " ".join(sys.argv[1:])
+    e = Object()
+    if txt:
+        cli = CLI()
+        scandir(cli, "mod")
+        cli.one(txt)
+    else:
+        date = time.ctime(time.time()).replace("  ", " ")
+        print(f"OPV started {date}")
+        csl = Console()
+        scandir(csl, "mod")
+        csl.start()
+        csl.wait()
+
+
+wrap(main)
