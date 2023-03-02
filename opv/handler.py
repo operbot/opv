@@ -6,6 +6,8 @@ import queue
 import threading
 
 
+from .default import Default
+from .listens import Listens
 from .objects import Object
 
 
@@ -18,6 +20,7 @@ def __dir__():
 __all__ = __dir__()
 
 
+
 class Handler(Object):
 
     def __init__(self):
@@ -26,27 +29,20 @@ class Handler(Object):
         self.queue = queue.Queue()
         self.stopped = threading.Event()
 
-    def event(self, txt):
-        evt = Object()
-        try:
-            evt.cmd, evt.args = txt.split()
-        except ValueError:
-            evt.cmd = txt
-            evt.args = []
-        evt.rest = " ".join(evt.args)
-        evt.target = self
-        return evt
-
     def handle(self, evt):
         if not evt or "cmd" not in evt:
             return
         func = getattr(self.cmds, evt.cmd, None)
         if func:
-            return func(evt)
+            func(evt)
+            evt.show()
 
     def loop(self):
         while not self.stopped.set():
             self.handle(self.poll())
+
+    def one(self, txt):
+        return self.handle(self.event(txt))
 
     def poll(self):
         return self.queue.get()
@@ -58,3 +54,7 @@ class Handler(Object):
         for _key, cmd in inspect.getmembers(mod, inspect.isfunction):
             if "event" in cmd.__code__.co_varnames:
                 setattr(self.cmds, cmd.__name__, cmd)
+
+    def wait(self):
+        while 1:
+            time.sleep(1.0)

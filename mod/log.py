@@ -28,10 +28,10 @@ Storage.add(Log)
 
 
 def log(event):
-    if not event.args:
+    if not event.rest:
         nmr = 0
         for fnm, obj in sorted(Storage.find("log"), key=lambda x: fntime(x[0])):
-            print("%s %s %s" % (
+            event.reply("%s %s %s" % (
                                 nmr,
                                 obj.txt,
                                 elapsed(time.time() - fntime(fnm)))
@@ -39,6 +39,6 @@ def log(event):
             nmr += 1
         return
     obj = Log()
-    obj.txt = " ".join(event.args)
+    obj.txt = event.rest
     Storage.save(obj)
-    print("ok")
+    event.reply("ok")
