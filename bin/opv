@@ -86,8 +86,7 @@ def main():
         print(f"OPV started {date}")
         csl = Console()
         scandir(csl, "mod")
-        csl.start()
-        csl.wait()
+        csl.loop()
 
 
 wrap(main)
